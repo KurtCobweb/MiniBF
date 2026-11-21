@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Pixel Companion main screen.
+  The first supplied image is used as the app's alarm/mascot artwork.
+  The two other supplied images are used for Study and Water reminders.
+
+  XML defines the screen only. Kotlin code must:
+    1) populate the two slot containers from saved/default schedule data,
+    2) handle Add slot, time selection, weekday selection, enable switches,
+    3) persist edits, and
+    4) schedule/cancel AlarmManager alarms for each enabled slot.
+-->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@color/pixel_background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/page_padding">
+
+        <TextView
+            android:id="@+id/titleText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/app_title"
+            android:textColor="@color/pixel_ink"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:fontFamily="monospace" />
+
+        <ImageView
+            android:id="@+id/alarmMascot"
+            android:layout_width="144dp"
+            android:layout_height="144dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="12dp"
+            android:contentDescription="@string/alarm_mascot_description"
+            android:src="@drawable/alarm_mascot"
+            android:scaleType="fitCenter"
+            android:importantForAccessibility="yes" />
+
+        <Button
+            android:id="@+id/openBobbyChatButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Make plans with Bobby"
+            android:textAllCaps="false" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:fontFamily="monospace"
+            android:text="@string/schedule_heading"
+            android:textColor="@color/pixel_ink"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <!-- Study reminder group. Kotlin inserts one item_reminder_slot view per slot. -->
+        <LinearLayout
+            android:id="@+id/studySlotsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical"
+            android:background="@drawable/panel_background"
+            android:padding="12dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:contentDescription="@string/study_character_description"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/study_character" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/study_title"
+                    android:textColor="@color/pixel_ink"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:fontFamily="monospace" />
+
+                <Button
+                    android:id="@+id/addStudySlotButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_slot"
+                    android:textAllCaps="false" />
+            </LinearLayout>
+
+            <!-- Default slots are created by Kotlin from default_schedule.xml. -->
+            <LinearLayout
+                android:id="@+id/studySlotRows"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </LinearLayout>
+
+        <!-- Water reminder group. -->
+        <LinearLayout
+            android:id="@+id/waterSlotsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/panel_background"
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:contentDescription="@string/water_character_description"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/water_character" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:fontFamily="monospace"
+                    android:text="@string/water_title"
+                    android:textColor="@color/pixel_ink"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/addWaterSlotButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_slot"
+                    android:textAllCaps="false" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/waterSlotRows"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </LinearLayout>
+
+        <!-- Water intake meter + log. Red < 1.5 L, yellow 1.5-2 L, green 2-3 L, blue 3-4 L+.
+             Entries are added in gulps or mL (gulp size: WaterLevels.GULP_VOLUME_ML). -->
+        <LinearLayout
+            android:id="@+id/waterIntakeContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/panel_background"
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="monospace"
+                    android:text="@string/water_intake_title"
+                    android:textColor="@color/pixel_ink"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/addWaterEntryButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_water_entry"
+                    android:textAllCaps="false" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/waterTotalText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:fontFamily="monospace"
+                android:text="0 L"
+                android:textColor="@color/water_red"
+                android:textSize="26sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/waterStatusText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="monospace"
+                android:textColor="@color/pixel_secondary_text"
+                android:textSize="13sp" />
+
+            <com.example.minibf.WaterMeterView
+                android:id="@+id/waterMeter"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:layout_marginTop="10dp" />
+
+            <TextView
+                android:id="@+id/waterEmptyText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Nothing logged yet today. Tap + Add drink, or answer the water character."
+                android:textColor="@color/pixel_secondary_text"
+                android:textSize="12sp" />
+
+            <LinearLayout
+                android:id="@+id/waterEntryRows"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </LinearLayout>
+
+        <!-- Requires the user to grant Android's "Display over other apps" access. -->
+        <Switch
+            android:id="@+id/floatingCharactersSwitch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Show floating characters and speak reminders"
+            android:textColor="@color/pixel_ink"
+            android:textSize="15sp" />
+
+        <Switch
+            android:id="@+id/remindersEnabledSwitch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/reminders_master_switch"
+            android:textColor="@color/pixel_ink"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/saveSettingsButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/save_settings"
+            android:textAllCaps="false" />
+
+    </LinearLayout>
+</ScrollView>

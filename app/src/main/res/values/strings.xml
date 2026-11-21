@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MiniBF</string>
+    <string name="app_title">MiniBF</string>
+    <string name="alarm_mascot_description">Pixel-art alarm companion</string>
+    <string name="schedule_heading">REMINDER SCHEDULE</string>
+    <string name="study_title">SAMMY_S STUDY TIME</string>
+    <string name="water_title">CASTIEL SAYS DRINK WATER</string>
+    <string name="study_character_description">Pixel study reminder character</string>
+    <string name="water_character_description">Pixel water reminder character</string>
+    <string name="add_slot">+ Add slot</string>
+    <string name="change_time">Change</string>
+    <string name="delete_slot">Delete slot</string>
+    <string name="slot_enabled_description">Enable or disable this reminder slot</string>
+    <string name="default_repeat_days">Repeats: Every day</string>
+    <string name="reminders_master_switch">Enable all reminders</string>
+    <string name="save_settings">Save settings</string>
+    <string name="water_intake_title">TODAY\'S WATER</string>
+    <string name="add_water_entry">+ Add drink</string>
+    <string name="edit_entry">Edit</string>
+    <string name="delete_entry">Delete</string>
+</resources>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  EDIT THESE DEFAULTS before building the app.
+  Times use 24-hour notation (HH:mm). Each entry is a separate daily slot.
+  Kotlin should load these defaults only on first launch; later user edits
+  should be stored persistently and must not be overwritten on app restart.
+  For custom weekday repeats, extend each slot with a days="MON,TUE,..." value.
+-->
+<reminder-defaults>
+    <study enabled="true">
+        <slot hour="08" minute="00" days="MON,TUE,WED,THU,FRI,SAT,SUN" />
+        <slot hour="10" minute="00" days="MON,TUE,WED,THU,FRI,SAT,SUN" />
+        <slot hour="16" minute="00" days="MON,TUE,WED,THU,FRI,SAT,SUN" />
+    </study>
+    <water enabled="true">
+        <slot hour="09" minute="00" days="MON,TUE,WED,THU,FRI,SAT,SUN" />
+        <slot hour="11" minute="00" days="MON,TUE,WED,THU,FRI,SAT,SUN" />
+        <slot hour="13" minute="00" days="MON,TUE,WED,THU,FRI,SAT,SUN" />
+        <slot hour="15" minute="00" days="MON,TUE,WED,THU,FRI,SAT,SUN" />
+        <slot hour="17" minute="00" days="MON,TUE,WED,THU,FRI,SAT,SUN" />
+    </water>
+</reminder-defaults>

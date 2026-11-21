@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Simple panel surface for the pixel-art themed schedule cards. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/pixel_panel" />
+    <stroke android:width="2dp" android:color="@color/pixel_ink" />
+    <corners android:radius="2dp" />
+</shape>

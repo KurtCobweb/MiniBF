@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Speech-bubble tail pointing down at the character. Stroke is open at the top so it merges with the oval. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="26dp"
+    android:height="15dp"
+    android:viewportWidth="26"
+    android:viewportHeight="15">
+    <path
+        android:fillColor="#FFFDF2"
+        android:pathData="M3,0 L13,13 L23,0"
+        android:strokeColor="@color/pixel_ink"
+        android:strokeLineJoin="miter"
+        android:strokeWidth="3" />
+</vector>

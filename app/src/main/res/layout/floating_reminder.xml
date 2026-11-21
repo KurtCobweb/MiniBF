@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Overlay layout. The card is 280dp wide (keep in sync with CARD_WIDTH_DP in FloatingReminderService).
+  Structure: oval speech bubble (text + YES/NO or checkbox) -> tail -> walking character.
+-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/floatingReminderRoot"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:clipToPadding="false">
+
+    <!-- This whole card is what walks across the screen (translationX). -->
+    <FrameLayout
+        android:id="@+id/floatingCard"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <!-- Bubble + tail. Invisible until the character arrives, then pops in. -->
+            <LinearLayout
+                android:id="@+id/floatingBubbleGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:visibility="invisible">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/floating_bubble_oval"
+                    android:elevation="6dp"
+                    android:minHeight="190dp"
+                    android:paddingStart="36dp"
+                    android:paddingTop="24dp"
+                    android:paddingEnd="36dp"
+                    android:paddingBottom="20dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/floatingReminderMessage"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:lineSpacingExtra="2dp"
+                            android:textColor="@color/pixel_ink"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <!-- Fixed-height action area so the bubble never jumps between steps. -->
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:layout_marginTop="8dp">
+
+                            <LinearLayout
+                                android:id="@+id/floatingChoiceRow"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:orientation="horizontal"
+                                android:visibility="gone">
+
+                                <Button
+                                    android:id="@+id/floatingYes"
+                                    android:layout_width="72dp"
+                                    android:layout_height="38dp"
+                                    android:layout_marginEnd="8dp"
+                                    android:background="@drawable/floating_btn_yes"
+                                    android:fontFamily="monospace"
+                                    android:minWidth="0dp"
+                                    android:minHeight="0dp"
+                                    android:padding="0dp"
+                                    android:stateListAnimator="@null"
+                                    android:text="YES"
+                                    android:textColor="@color/pixel_ink"
+                                    android:textSize="13sp"
+                                    android:textStyle="bold" />
+
+                                <Button
+                                    android:id="@+id/floatingNo"
+                                    android:layout_width="72dp"
+                                    android:layout_height="38dp"
+                                    android:layout_marginStart="8dp"
+                                    android:background="@drawable/floating_btn_no"
+                                    android:fontFamily="monospace"
+                                    android:minWidth="0dp"
+                                    android:minHeight="0dp"
+                                    android:padding="0dp"
+                                    android:stateListAnimator="@null"
+                                    android:text="NO"
+                                    android:textColor="@color/pixel_ink"
+                                    android:textSize="13sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <!-- Water only: "How many gulps?" slider (0..5) + OK. -->
+                            <LinearLayout
+                                android:id="@+id/floatingGulpRow"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
+                                android:visibility="gone">
+
+                                <SeekBar
+                                    android:id="@+id/floatingGulpSeek"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:max="5"
+                                    android:progress="1"
+                                    android:progressTint="@color/pixel_blue"
+                                    android:thumbTint="@color/pixel_blue" />
+
+                                <TextView
+                                    android:id="@+id/floatingGulpCount"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="4dp"
+                                    android:fontFamily="monospace"
+                                    android:minWidth="52dp"
+                                    android:gravity="center"
+                                    android:textColor="@color/pixel_ink"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold" />
+
+                                <Button
+                                    android:id="@+id/floatingGulpOk"
+                                    android:layout_width="44dp"
+                                    android:layout_height="34dp"
+                                    android:background="@drawable/floating_btn_yes"
+                                    android:fontFamily="monospace"
+                                    android:minWidth="0dp"
+                                    android:minHeight="0dp"
+                                    android:padding="0dp"
+                                    android:stateListAnimator="@null"
+                                    android:text="OK"
+                                    android:textColor="@color/pixel_ink"
+                                    android:textSize="13sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <CheckBox
+                                android:id="@+id/floatingDoneCheck"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:buttonTint="@color/pixel_blue"
+                                android:maxWidth="170dp"
+                                android:textColor="@color/pixel_ink"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                android:visibility="gone" />
+                        </FrameLayout>
+                    </LinearLayout>
+                </FrameLayout>
+
+                <!-- Speech tail; overlaps the oval's bottom outline by 3dp. -->
+                <ImageView
+                    android:layout_width="26dp"
+                    android:layout_height="15dp"
+                    android:layout_marginTop="-3dp"
+                    android:elevation="7dp"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/floating_bubble_tail" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/floatingCharacterImage"
+                android:layout_width="96dp"
+                android:layout_height="112dp"
+                android:contentDescription="Reminder character"
+                android:scaleType="fitCenter" />
+        </LinearLayout>
+
+        <!-- Small close button in the empty corner outside the oval. -->
+        <TextView
+            android:id="@+id/floatingDismiss"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_gravity="top|end"
+            android:gravity="center"
+            android:text="×"
+            android:textColor="@color/pixel_blue"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </FrameLayout>
+</FrameLayout>
